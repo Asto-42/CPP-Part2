@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:40:10 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/28 18:45:15 by jquil            ###   ########.fr       */
+/*   Updated: 2024/02/28 19:23:25 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,9 @@ class Bitcoin
 	std::map<std::basic_string<char>, float>::iterator	getMapBegin(void);
 	std::map<std::basic_string<char>, float>::iterator	getMapEnd(void);
 	void	parseDataBase(void);
-	//void createDataBase(void);
-	/*
-		void	handleInput();
-		void	createDatabase();
-		bool	checkDate(std::string date);
-		float	getValueAtDate(std::string date);
-		void	priceConversion(std::string date, float value);
-	*/
+	void	init(std::string str);
+	void	FindOccurence(std::string date, float value);
+	std::string findCloserDate(std::string date);
 
 	class InvalidFile:public std::exception
 	{

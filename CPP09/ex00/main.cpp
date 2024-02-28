@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/28 18:45:39 by jquil            ###   ########.fr       */
+/*   Updated: 2024/02/28 19:19:09 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int argc, char **argv)
 		Bitcoin bitcoin("data.csv");
 		bitcoin.parseDataBase();
 		std::cout << "Data base is valid" << std::endl;
+		std::cout << "\nStart searching bitcoin value\n" << std::endl;
+		bitcoin.init(argv[1]);
 
 	}
 	catch(const Bitcoin::InvalidFile e)

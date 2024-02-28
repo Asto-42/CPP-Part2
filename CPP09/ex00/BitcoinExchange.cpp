@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:42 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/28 18:44:47 by jquil            ###   ########.fr       */
+/*   Updated: 2024/02/28 19:50:03 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,16 @@ bool parseSecondMember(float bit_value)
 		return (0);
 	return (1);
 }
+bool parseSecondMemberInput(float value)
+{
+	if (value >= 0 && value <= 1000)
+		return (1);
+	else if (value < 0)
+		std::cout << "Error: not a positive number." << std::endl;
+	else
+		std::cout << "Error: too large a number." << std::endl;
+	return (0);
+}
 
 void	Bitcoin::parseDataBase(void)
 {
@@ -116,6 +126,109 @@ std::map<std::basic_string<char>, float>::iterator	Bitcoin::getMapBegin(void)
 std::map<std::basic_string<char>, float>::iterator	Bitcoin::getMapEnd(void)
 {
 	return (this->map.end());
+}
+
+std::string Bitcoin::findCloserDate(std::string date)
+{
+	std::cout << date << std::endl;
+	int date_1 = atoi(date.c_str());
+	date.erase(0, date.find("-") + 1);
+	int date_2 = atoi(date.c_str());
+	date.erase(0, date.find("-") + 1);
+	int date_3 = atoi(date.c_str());
+
+	if (date_3 != 1)
+		date_3--;
+	while (date_1 > 2008)
+	{
+		while (date_2 > 0)
+		{
+			while (date_3 > 0)
+			{
+				for (std::map<std::string, float>::iterator it = ((this->getMapBegin())); it != ((this->getMapEnd())); ++it)
+				{
+					std::string cmp = it->first;
+					int cmp_1 = atoi(cmp.c_str());
+					cmp.erase(0, cmp.find("-") + 1);
+					int cmp_2 = atoi(cmp.c_str());
+					cmp.erase(0, cmp.find("-") + 1);
+					int cmp_3 = atoi(cmp.c_str());
+					if (cmp_1 == date_1 && cmp_2 == date_2 && cmp_3 == date_3)
+						return (it->first);
+				}
+				date_3--;
+			}
+			date_2--;
+			if (date_2 != 0)
+			{
+				if (date_1 % 4 == 0 && date_2 == 2)
+					date_3 = 29;
+				else if (date_2 == 2)
+					date_3 = 28;
+				else if (date_2 <= 7 && date_2 % 2 == 0)
+					date_3 = 30;
+				else
+					date_3 = 31;
+			}
+		}
+		date_3 = 31;
+		date_2 = 12;
+		date_1--;
+	}
+	return (NULL);
+}
+
+void	Bitcoin::FindOccurence(std::string date, float value)
+{
+	std::string date_2;
+	for (std::map<std::string, float>::iterator it = ((this->getMapBegin())); it != ((this->getMapEnd())); ++it)
+	{
+		if (date == it->first)
+		{
+			std::cout << "value of " << value << " bitcoin at " << it->first << " = " << value * it->second << "." << std::endl;
+			return ;
+		}
+		else
+		{
+			date_2 = findCloserDate(date);
+			std::cout << "Bitcoin value at " << date << " is not in the database" << std::endl;
+			std::cout << "Bitcoin value at the closer date we have : " << date_2 << " = " << this->map[date_2] * value << "\n" << std::endl;
+			return ;
+		}
+	}
+}
+
+void	Bitcoin::init(std::string str)
+{
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+	std::fstream infile("cmp.txt");
+	infile.open(str.c_str(), std::ios::in);
+	if (!infile)
+		throw Bitcoin::InvalidFile();
+	std::ifstream DataBase(str.c_str());
+	if (!DataBase.is_open())
+		throw Bitcoin::InvalidFile();
+	std::string buffer;
+	while (std::getline(DataBase, buffer))
+	{
+		std::stringstream	streamBuf(buffer);
+		std::string			date;
+		float				value;
+		if (std::getline(streamBuf, date, '|') && streamBuf >> value)
+		{
+			date.erase(date.find(' '));
+			if (parseFirstMember(date, 1900 + ltm->tm_year, 1 + ltm->tm_mon, ltm->tm_mday) == 0)
+				std::cout << "Invalid date" << std::endl;
+			if (parseSecondMemberInput(value) == 1)
+			{
+				FindOccurence(date, value);
+			}
+		}
+		else
+			std::cout << "Bad input -> " << buffer << std::endl;
+	}
+	DataBase.close();
 }
 
 void	Bitcoin::printmap(void)
