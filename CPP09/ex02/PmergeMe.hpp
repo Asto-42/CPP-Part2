@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:53:15 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/03 14:29:45 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/03 15:05:17 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ class PmergeMe
 	void	update_vector_size(void);
 	void	print_vectors(void);
 	void	SplitX(void);
-	void	push_back_max(int max);
+	void	push_back_min(int min);
+	int *	define_array(void);
+	int	*	redefine_array(int *array, int min, size_t size);
 	void	start_binary_search(void);
 
 };
