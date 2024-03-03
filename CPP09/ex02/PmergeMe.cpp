@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/03 15:31:44 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/03 15:51:35 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,11 @@ void	PmergeMe::start_binary_search(void)
 int	find_min(int *array, size_t size)
 {
 	int min = INT_MAX;
-	std::cout << "size = " <<  size << std::endl;
-	for (size_t x = 0; x < size; x++)
+	for (size_t x = 0; x <= size - 1; x++)
 	{
 		if (min > array[x])
 			min = array[x];
 	}
-	std::cout << min << std::endl;
 	return (min);
 }
 
@@ -97,7 +95,6 @@ void	PmergeMe::push_back_min(int min)
 int *	PmergeMe::define_array(void)
 {
 	int *array = new int[this->n_c / 2];
-	//int array[this->n_c / 2];
 	size_t y = 0;
 	for (size_t x = 0; x <= this->n_c; x += 2)
 	{
@@ -112,17 +109,14 @@ int *	PmergeMe::define_array(void)
 	return (array);
 }
 
-int	*PmergeMe::redefine_array(int *array, int min, size_t size)
+int	*redefine_array(int *array, int min, size_t size)
 {
-	int *new_array = new int[this->n_c / 2 - size];
+	int *new_array = new int[size];
 	int y = 0;
-	for (size_t x = 0; x < this->n_c / 2; x++)
+	for (size_t x = 0; x <= size; x++)
 	{
 		if (array[x] != min)
-		{
-			std::cout << "Array[x] = " << array[x] << "	min = " << min << std::endl;
 			new_array[y++] = array[x];
-		}
 	}
 	delete array;
 	return (new_array);
@@ -130,28 +124,21 @@ int	*PmergeMe::redefine_array(int *array, int min, size_t size)
 
 void	PmergeMe::SplitX(void)
 {
-	int *array = new int[this->n_c / 2];
+	int array_size = this->n_c / 2;
+	int *array = new int[array_size];
 	array = define_array();
-	//update the push method to push in croissant order
-	//std::cout << "C list =	";
-	//std::for_each(this->C_list.begin(), this->C_list.end(), PrintNumber());
-	for (size_t x = 0; x < this->n_c / 2; x++)
-	{
-		std::cout << "Array[x] = " << array[x] << std::endl;
-	}
-	//sort array in reverse order
 	for (size_t y = 0; y <= this->C_list.size(); y++)
 	{
-		int min = find_min(array, this->n_c / 2 - y);
+		int min = find_min(array, array_size);
 		push_back_min(min);
+		array_size--;
 		update_vector_size();
-		array = redefine_array(array, min, this->n_c / 2 - y);
-		// for (size_t x = 0; x < this->n_c / 2 - y; x++)
-		// {
-		// 	std::cout << "Array[x] = " << array[x] << std::endl;
-		// }
+		if (array_size == 0)
+			break;
+		array = redefine_array(array, min, array_size);
 	}
 	print_vectors();
+
 }
 
 PmergeMe::~PmergeMe(void)
