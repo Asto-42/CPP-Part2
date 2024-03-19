@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/03 15:51:35 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/19 12:54:35 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,6 @@ void	PmergeMe::update_vector_size(void)
 	this->n_s = this->S_list.size();
 }
 
-void	PmergeMe::start_binary_search(void)
-{
-	//this->S_list.push_back(this->C_list[array[pos]]);
-	//this->C_list.insert(0, this->S_list[0]);
-}
-
 int	find_min(int *array, size_t size)
 {
 	int min = INT_MAX;
@@ -122,6 +116,50 @@ int	*redefine_array(int *array, int min, size_t size)
 	return (new_array);
 }
 
+void	PmergeMe::start_binary_search(void)
+{
+	int cursor = this->n_s / 2;
+	while (this->n_c > 0)
+	{
+		int x = 0;
+		// std::cout << cursor << std::endl;
+		if (this->S_list[cursor] < this->C_list[x] && this->S_list[cursor + 1] > this->C_list[x])
+		{
+			this->S_list.insert(this->S_list.begin() + cursor, this->C_list[x]);
+			this->C_list.erase(this->C_list.begin() + x);
+			cursor = this->n_s / 2;
+			// std::cout << "PUSH" << std::endl;
+		}
+		else if (this->S_list[cursor] > this->C_list[x] && this->S_list[cursor - 1] < this->C_list[x])
+		{
+			this->S_list.insert(this->S_list.begin() + cursor, this->C_list[x]);
+			this->C_list.erase(this->C_list.begin() + x);
+			cursor = this->n_s / 2;
+			// std::cout << "PUSH" << std::endl;
+		}
+		if (C_list[x] == 85 && cursor == 9)
+			break;
+		else if (this->S_list[cursor] > this->C_list[x])
+		{
+			cursor = cursor / 2;
+		}
+		else if (this->S_list[cursor] < this->C_list[x])
+		{
+			cursor = cursor + cursor / 2;
+			if (cursor > (int)this->n_s)
+			{
+				cursor = this->n_s;
+				this->S_list.push_back(this->C_list[x]);
+				this->C_list.erase(this->C_list.begin() + x);
+			}
+		}
+		update_vector_size();
+		// std::cout << "cursor = " << cursor << std::endl;
+		// std::cout << "S_list[cursor] = " << this->S_list[cursor] << "	C_list[x] = " << C_list[x] << "	S_list[cursor - 1] = " << this->S_list[cursor - 1] << std::endl;
+	}
+	print_vectors();
+}
+
 void	PmergeMe::SplitX(void)
 {
 	int array_size = this->n_c / 2;
@@ -138,7 +176,7 @@ void	PmergeMe::SplitX(void)
 		array = redefine_array(array, min, array_size);
 	}
 	print_vectors();
-
+//	start_binary_search();
 }
 
 PmergeMe::~PmergeMe(void)
