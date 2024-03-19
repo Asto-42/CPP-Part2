@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/19 18:57:35 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/19 19:37:57 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void	SplitX2(T &lst)
 		print_vector(main, main.size(), "main");
 		print_vector(tmp, tmp.size(), "tmp");
 		std::cout << "\n" << std::endl;
-		std::cout << main.size() << std::endl;
 		while (main.size() > 0 && main.size() < 5000)
 		{
 			size_t y = 0;
@@ -124,44 +123,50 @@ void	SplitX2(T &lst)
 					if (tmp[x].value == main[y].pair)
 					{
 						//bad dicotomie, need to check -> x = max of comp
-						std::cout << "Here	" << tmp[x].value << "	" << main[y].pair << std::endl;
 						if (tmp[x - 1].value < main[y].value && tmp[x].value > main[y].value)
 						{
 							tmp.insert(tmp.begin() + x, main[y]);
 							main.erase(main.begin() + y);
 							break ;
 						}
-						x = x / 2;
 						bool push = 0;
-						std::cout << "start dico\n" << x << "	" << y << std::endl;
 						print_vector(main, main.size(), "main");
 						print_vector(tmp, tmp.size(), "tmp");
 						int nb = 0;
-						while (push == 0 && nb < 10)
+						int x2 = 0;
+						//int x1 = x;
+						std::cout << "start dico\n" << "x = " << x << "	" << "y = " << y << std::endl;
+						std::cout << "Value to place = " << main[y].value << std::endl;
+						while (push == 0 && nb < 10 && x2 < (int)tmp.size())
 						{
-							x1 = x;
-							x2 = 0;
 							nb++;
-							if (x == 0)
-							{
-								tmp.insert(tmp.begin(), main[y]);
-								main.erase(main.begin() + y);
-								push = 1;
-							}
-							if (tmp[x - 1].value < main[y].value && tmp[x].value > main[y].value)
+							std::cout << "tmp[x/2] = " << tmp[x/2].value << "	tmp[x2] = " << tmp[x2].value <<  "	main[y] = " << main[y].value << std::endl;
+							if ((tmp[x - 1].value < main[y].value && tmp[x].value > main[y].value) || x == 0)
 							{
 								tmp.insert(tmp.begin() + x, main[y]);
 								main.erase(main.begin() + y);
-								push = 1;
+								break ;
 							}
-							if (tmp[x].value > main[y].value && tmp[x + 1].value > main[y].value)
+							else if (((x2 > 0) && tmp[x2 - 1].value < main[y].value && tmp[x2].value > main[y].value))
+							{
+								tmp.insert(tmp.begin() + x2, main[y]);
+								main.erase(main.begin() + y);
+								break ;
+							}
+							if (tmp[x / 2].value > main[y].value)
+							{
+								std::cout << "down" << std::endl;
 								x = x / 2;
+							}
 							else
-								x = x + tmp.size() / 2;
-							std::cout << x << std::endl;
+							{
+								std::cout << "up" << std::endl;
+
+								x2 = x / 2;
+							}
+							std::cout << "x = " << x << std::endl;
 						}
 						print_vector(tmp, tmp.size(), "tmp");
-						//exit (0);
 						break ;
 					}
 				}
