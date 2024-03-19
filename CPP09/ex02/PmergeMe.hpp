@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:53:15 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/03 15:51:32 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/19 16:11:19 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,21 @@
 #include <stack>
 #include <cstring>
 
+typedef struct s_pair
+{
+	int value;
+	int pair;
+}			t_pair;
+
+template <typename T>
+void	SplitX(T &lst);
+
 class PmergeMe
 {
 	private :
 
-	std::vector<int> C_list;
-	std::vector<int> S_list;
+	std::vector<t_pair> C_list;
 	size_t n_c;
-	size_t n_s;
 	//PmergeMe & operator=(const PmergeMe &rhs);
 	PmergeMe(PmergeMe &rhs);
 
@@ -53,14 +60,6 @@ class PmergeMe
 	PmergeMe();
 	PmergeMe(unsigned int n, char **argv);
 	~PmergeMe();
-
-	void	start_sort(void);
-	void	update_vector_size(void);
-	void	print_vectors(void);
-	void	SplitX(void);
-	void	push_back_min(int min);
-	int *	define_array(void);
-	void	start_binary_search(void);
 
 };
 #endif

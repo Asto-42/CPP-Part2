@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/01 18:25:59 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/19 16:12:11 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ int	main(int argc, char **argv)
 		std::cout << "Invalid arguments" << std::endl;
 		return (0);
 	}
+	//calcul_max_comp(argc - 1);
 	PmergeMe data((unsigned int)argc - 1, argv);
-	calcul_max_comp(argc - 1);
-	data.start_sort();
 	return (0);
 }
