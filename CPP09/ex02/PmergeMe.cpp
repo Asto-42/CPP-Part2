@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/20 13:34:36 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/20 16:07:36 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,31 +50,8 @@ void	print_vector(T &tmp, int size, std::string c)
 		std::cout << std::endl;
 		std::cout << "	";
 		std::for_each(lst2.begin(), lst2.end(), Printpair());
-		//std::cout << "\n	size : " << lst.size() << std::endl;
 		std::cout << std::endl;
 	}
-}
-
-/*
-10 32 45 65 64 76 87 335 157 158 56 445 223 844 25 85
-
-C list =        10 45 64 87 157 56 223 25       size : 8
-
-S list =        32 65 76 85 158 335 445 844     size : 8
-10 32 45 65 64 76 87 335 157 158 56 445 223 844 25 85
-10 45 64 87 157 56 223 25 // 32 65 76 335 158 445 844 85
-32 76 158 85 // 32 65 76 335 445 844
-65 445 // 65 335 445 844
-*/
-
-unsigned int jacobsthal(unsigned int n)
-{
-	if (n == 0)
-		return 0;
-	else if (n == 1)
-		return 1;
-	else
-		return jacobsthal(n - 1) + 2 * jacobsthal(n - 2);
 }
 
 template <typename T>
@@ -82,9 +59,9 @@ void	SplitX2(T &lst)
 {
 	T main;
 	T tmp;
-	std::cout << "			New recurs" << std::endl;
 	for (size_t x = 0; x < lst.size(); x+= 2)
 	{
+		nb_comp++;
 		if (lst[x].value > lst[x + 1].value)
 			std::swap(lst[x].value, lst[x + 1].value);
 	}
@@ -93,9 +70,8 @@ void	SplitX2(T &lst)
 		int y = 0;
 		for (size_t x = 0; x < lst.size(); x += 2)
 		{
-
 			tmp.push_back(lst[x + 1]);
-				tmp[y].pair = y;
+			tmp[y].pair = y;
 			main.push_back(lst[x]);
 			main[y].pair = lst[x + 1].value;
 			y++;
@@ -103,6 +79,7 @@ void	SplitX2(T &lst)
 		SplitX2(tmp);
 		for (size_t x = 0; x < main.size(); x++)
 		{
+			nb_comp++;
 			if (main[x].pair == tmp[0].value)
 			{
 				tmp.insert(tmp.begin(), main[x]);
@@ -110,95 +87,37 @@ void	SplitX2(T &lst)
 				break ;
 			}
 		}
-		print_vector(main, main.size(), "main");
-		print_vector(tmp, tmp.size(), "tmp");
-		std::cout << "\n" << std::endl;
-		while (main.size() > 0 && main.size() < 5000)
+		while (main.size() > 0)
 		{
 			size_t y = 0;
-			while (y < main.size() && main.size() < 5000)
+			while (y < main.size())
 			{
 				for (size_t x = 0; x < tmp.size(); x++)
 				{
 					if (tmp[x].value == main[y].pair)
 					{
-						//bad dicotomie, need to check -> x = max of comp
-						if (tmp[x - 1].value < main[y].value && tmp[x].value > main[y].value)
+						size_t x2 = 0;
+						while (x2 + 1 < x)
 						{
-							tmp.insert(tmp.begin() + x, main[y]);
-							main.erase(main.begin() + y);
-							break ;
+							nb_comp++;
+							if (tmp[(x+x2)/2].value < main[y].value)
+								x2 = (x + x2) / 2;
+							else if (tmp[(x+x2)/2].value > main[y].value)
+								x = (x + x2) / 2;
 						}
-						bool push = 0;
-						print_vector(main, main.size(), "main");
-						print_vector(tmp, tmp.size(), "tmp");
-						int nb = 0;
-						int x2 = 0;
-						//int x1 = x;
-						std::cout << "start dico\n" << "x = " << x << "	" << "y = " << y << std::endl;
-						std::cout << "Value to place = " << main[y].value << std::endl;
-						while (push == 0 && nb < 10)
-						{
-							std::cout << "Start boucle\nx = " << x << "	x2 = " << x2 << std::endl;
-							nb++;
-							//std::cout << "tmp[x/2] = " << tmp[x].value << "	tmp[x2] = " << tmp[x2].value <<  "	main[y] = " << main[y].value << std::endl;
-							if ((tmp[x2].value < main[y].value && tmp[x].value > main[y].value && x - x2 == 1))
-							{
-								tmp.insert(tmp.begin() + x, main[y]);
-								main.erase(main.begin() + y);
-								std::cout << "Push" << std::endl;
-								break ;
-							}
-							if (x == 2 && x2 == 1 && !(tmp[x2].value < main[y].value && tmp[x].value))
-							{
-								tmp.insert(tmp.begin(), main[y]);
-								main.erase(main.begin());
-								std::cout << "Push" << std::endl;
-								break ;
-							}
-							if (tmp[x / 2].value > main[y].value)
-							{
-								std::cout << "down" << std::endl;
-								x2 = x / 2;
-							}
-							else
-							{
-								std::cout << "up" << std::endl;
-								x = x / 2;
-							}
-							if (nb == 8)
-								exit (0);
-							std::cout << "x = " << x << "	x2 = " << x2 << std::endl;
-						}
-						print_vector(tmp, tmp.size(), "tmp");
+						if (x2 != 0)
+							tmp.insert(tmp.begin() + x2 + 1, main[y]);
+						else
+							tmp.insert(tmp.begin(), main[y]);
+						main.erase(main.begin() + y);
 						break ;
 					}
 				}
 				y++;
 			}
 		}
-
-
-
-		// size_t main_size = main.size();
-		// for (size_t x = 0; x < main_size; x++)
-		// {
-		// 	size_t y = 0;
-		// 	size_t index = 0;
-		// 	for (; jacobsthal(y) < x; y++) {}
-		// 	if (y)
-		// 	{
-		// 		if (jacobsthal(y) >= main_size - 1)
-		// 			index = main_size - (x - jacobsthal(y - 1));
-		// 		else
-		// 			index = jacobsthal(y) + 1 - (x - jacobsthal(y - 1));
-		// 	}
-		// 	binarySearchInsert(tmp, main[index]);
-		// }
-		// lst = tmp;
+		lst = tmp;
 	}
-	// else
-	// 	exit (0);
 }
 template <typename T>
 void	SplitX(T &lst)
@@ -210,7 +129,7 @@ void	SplitX(T &lst)
 		int y = 0;
 		for (size_t x = 0; x < lst.size(); x += 2)
 		{
-
+			nb_comp++;
 			if (lst[x].value > lst[x + 1].value)
 				std::swap(lst[x].value, lst[x + 1].value);
 			tmp.push_back(lst[x + 1]);
@@ -221,38 +140,42 @@ void	SplitX(T &lst)
 				main[y].pair = lst[x + 1].value;
 			y++;
 		}
-		print_vector(main, main.size(), "main");
-		print_vector(tmp, main.size(), "tmp");
 		SplitX2(tmp);
-		for (size_t x = 0; x < main.size(); x++)
-		{
-			if (main[x].pair == tmp[0].value)
-			{
-				tmp.push_back(main[x]);
-				main.erase(main.begin() + x);
-				std::cout << "oui	" << main[x].value << std::endl;
-			}
-		}
-		// push the paire of the min of big -> devant
-		// size_t main_size = main.size();
-		// for (size_t x = 0; x < main_size; x++)
-		// {
-		// 	size_t y = 0;
-		// 	size_t index = 0;
-		// 	for (; jacobsthal(y) < x; y++) {}
-		// 	if (y)
-		// 	{
-		// 		if (jacobsthal(y) >= main_size - 1)
-		// 			index = main_size - (x - jacobsthal(y - 1));
-		// 		else
-		// 			index = jacobsthal(y) + 1 - (x - jacobsthal(y - 1));
-		// 	}
-		// 	binarySearchInsert(tmp, main[index]);
-		// }
-		//lst = tmp;
 	}
-	print_vector(main, main.size(), "main");
-	print_vector(tmp, main.size(), "tmp");
+	while (main.size() > 0)
+	{
+		size_t y = 0;
+		while (y < main.size())
+		{
+			for (size_t x = 0; x < tmp.size(); x++)
+			{
+				if (tmp[x].value == main[y].pair)
+				{
+					size_t x2 = 0;
+					while (x2 + 1 < x)
+					{
+						nb_comp++;
+						if (tmp[(x+x2)/2].value < main[y].value)
+							x2 = (x + x2) / 2;
+						else if (tmp[(x+x2)/2].value > main[y].value)
+							x = (x + x2) / 2;
+					}
+					if (x2 == 0 && x == 1)
+						tmp.insert(tmp.begin() + 1, main[y]);
+					else if (x2 != 0)
+						tmp.insert(tmp.begin() + x2 + 1, main[y]);
+					else
+						tmp.insert(tmp.begin(), main[y]);
+					main.erase(main.begin() + y);
+					break ;
+				}
+			}
+			y++;
+		}
+	}
+	lst = tmp;
+	print_vector(lst, lst.size(), "lst");
+	std::cout << "Nb comp = " << nb_comp << std::endl;
 }
 
 PmergeMe::PmergeMe(unsigned int size, char **argv)
@@ -267,105 +190,7 @@ PmergeMe::PmergeMe(unsigned int size, char **argv)
 	}
 	std::cout << "\n" << std::endl;
 	SplitX(this->C_list);
-	//print_vector(this->C_list, size);
 };
-
-// int	find_min(int *array, size_t size)
-// {
-// 	int min = INT_MAX;
-// 	for (size_t x = 0; x <= size - 1; x++)
-// 	{
-// 		if (min > array[x])
-// 			min = array[x];
-// 	}
-// 	return (min);
-// }
-
-// void	PmergeMe::push_back_min(int min)
-// {
-// 	for (size_t x = 0; x < this->n_c; x++)
-// 	{
-// 		if (this->C_list[x] == min)
-// 		{
-// 			this->S_list.push_back(this->C_list[x]);
-// 			this->C_list.erase(this->C_list.begin() + x);
-// 		}
-// 	}
-// }
-
-// int *	PmergeMe::define_array(void)
-// {
-// 	int *array = new int[this->n_c / 2];
-// 	size_t y = 0;
-// 	for (size_t x = 0; x <= this->n_c; x += 2)
-// 	{
-// 		if (x >= this->n_c || x + 1 >= this->n_c)
-// 			break;
-// 		if (this->C_list[x] <= this->C_list[x + 1])
-// 			array[y] = this->C_list[x + 1];
-// 		else
-// 			array[y] = this->C_list[x];
-// 		y++;
-// 	}
-// 	return (array);
-// }
-
-// int	*redefine_array(int *array, int min, size_t size)
-// {
-// 	int *new_array = new int[size];
-// 	int y = 0;
-// 	for (size_t x = 0; x <= size; x++)
-// 	{
-// 		if (array[x] != min)
-// 			new_array[y++] = array[x];
-// 	}
-// 	delete array;
-// 	return (new_array);
-// }
-
-// void	PmergeMe::start_binary_search(void)
-// {
-// 	int cursor = this->n_s / 2;
-// 	while (this->n_c > 0)
-// 	{
-// 		int x = 0;
-// 		// std::cout << cursor << std::endl;
-// 		if (this->S_list[cursor] < this->C_list[x] && this->S_list[cursor + 1] > this->C_list[x])
-// 		{
-// 			this->S_list.insert(this->S_list.begin() + cursor, this->C_list[x]);
-// 			this->C_list.erase(this->C_list.begin() + x);
-// 			cursor = this->n_s / 2;
-// 			// std::cout << "PUSH" << std::endl;
-// 		}
-// 		else if (this->S_list[cursor] > this->C_list[x] && this->S_list[cursor - 1] < this->C_list[x])
-// 		{
-// 			this->S_list.insert(this->S_list.begin() + cursor, this->C_list[x]);
-// 			this->C_list.erase(this->C_list.begin() + x);
-// 			cursor = this->n_s / 2;
-// 			// std::cout << "PUSH" << std::endl;
-// 		}
-// 		if (C_list[x] == 85 && cursor == 9)
-// 			break;
-// 		else if (this->S_list[cursor] > this->C_list[x])
-// 		{
-// 			cursor = cursor / 2;
-// 		}
-// 		else if (this->S_list[cursor] < this->C_list[x])
-// 		{
-// 			cursor = cursor + cursor / 2;
-// 			if (cursor > (int)this->n_s)
-// 			{
-// 				cursor = this->n_s;
-// 				this->S_list.push_back(this->C_list[x]);
-// 				this->C_list.erase(this->C_list.begin() + x);
-// 			}
-// 		}
-// 		update_vector_size();
-// 		// std::cout << "cursor = " << cursor << std::endl;
-// 		// std::cout << "S_list[cursor] = " << this->S_list[cursor] << "	C_list[x] = " << C_list[x] << "	S_list[cursor - 1] = " << this->S_list[cursor - 1] << std::endl;
-// 	}
-// 	print_vectors();
-// }
 
 PmergeMe::~PmergeMe(void)
 {

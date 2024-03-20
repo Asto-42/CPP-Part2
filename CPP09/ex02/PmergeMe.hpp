@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:53:15 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/19 16:11:19 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/20 15:02:50 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 #include <ctime>
 #include <stack>
 #include <cstring>
+
+static unsigned int nb_comp = 0;
 
 typedef struct s_pair
 {

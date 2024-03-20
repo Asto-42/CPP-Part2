@@ -6,12 +6,11 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/19 16:12:11 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/20 15:01:13 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-
 //1 - Group les elem de X par paires (n/2) avec un element solo si %2!=0
 //2 - determiner le max de chaque paires (soit n/2 comparaison)
 //3 - trier recursivement les n\2 plus grands elements de chaque paire creant ainsi
@@ -39,7 +38,7 @@ int	main(int argc, char **argv)
 		std::cout << "Invalid arguments" << std::endl;
 		return (0);
 	}
-	//calcul_max_comp(argc - 1);
+	calcul_max_comp(argc - 1);
 	PmergeMe data((unsigned int)argc - 1, argv);
 	return (0);
 }
