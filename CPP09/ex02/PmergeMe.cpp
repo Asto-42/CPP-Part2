@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/19 19:37:57 by jquil            ###   ########.fr       */
+/*   Updated: 2024/03/20 13:34:36 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,34 +137,38 @@ void	SplitX2(T &lst)
 						//int x1 = x;
 						std::cout << "start dico\n" << "x = " << x << "	" << "y = " << y << std::endl;
 						std::cout << "Value to place = " << main[y].value << std::endl;
-						while (push == 0 && nb < 10 && x2 < (int)tmp.size())
+						while (push == 0 && nb < 10)
 						{
+							std::cout << "Start boucle\nx = " << x << "	x2 = " << x2 << std::endl;
 							nb++;
-							std::cout << "tmp[x/2] = " << tmp[x/2].value << "	tmp[x2] = " << tmp[x2].value <<  "	main[y] = " << main[y].value << std::endl;
-							if ((tmp[x - 1].value < main[y].value && tmp[x].value > main[y].value) || x == 0)
+							//std::cout << "tmp[x/2] = " << tmp[x].value << "	tmp[x2] = " << tmp[x2].value <<  "	main[y] = " << main[y].value << std::endl;
+							if ((tmp[x2].value < main[y].value && tmp[x].value > main[y].value && x - x2 == 1))
 							{
 								tmp.insert(tmp.begin() + x, main[y]);
 								main.erase(main.begin() + y);
+								std::cout << "Push" << std::endl;
 								break ;
 							}
-							else if (((x2 > 0) && tmp[x2 - 1].value < main[y].value && tmp[x2].value > main[y].value))
+							if (x == 2 && x2 == 1 && !(tmp[x2].value < main[y].value && tmp[x].value))
 							{
-								tmp.insert(tmp.begin() + x2, main[y]);
-								main.erase(main.begin() + y);
+								tmp.insert(tmp.begin(), main[y]);
+								main.erase(main.begin());
+								std::cout << "Push" << std::endl;
 								break ;
 							}
 							if (tmp[x / 2].value > main[y].value)
 							{
 								std::cout << "down" << std::endl;
-								x = x / 2;
+								x2 = x / 2;
 							}
 							else
 							{
 								std::cout << "up" << std::endl;
-
-								x2 = x / 2;
+								x = x / 2;
 							}
-							std::cout << "x = " << x << std::endl;
+							if (nb == 8)
+								exit (0);
+							std::cout << "x = " << x << "	x2 = " << x2 << std::endl;
 						}
 						print_vector(tmp, tmp.size(), "tmp");
 						break ;
