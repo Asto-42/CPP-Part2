@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/20 17:07:42 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/24 14:04:21 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	print_vector(T &tmp, int size, std::string c)
 		std::cout << c << " =	";
 		std::for_each(lst.begin(), lst.end(), PrintNumber());
 		std::cout << std::endl;
-		std::cout << "	";
-		std::for_each(lst2.begin(), lst2.end(), Printpair());
-		std::cout << std::endl;
+		//std::cout << "	";
+		//std::for_each(lst2.begin(), lst2.end(), Printpair());
+		//std::cout << std::endl;
 	}
 }
 
 template <typename T>
-std::vector<t_pair>	SplitX2(T &lst)
+void	SplitX2(T &lst)
 {
 	T main;
 	T tmp;
@@ -81,7 +81,7 @@ std::vector<t_pair>	SplitX2(T &lst)
 		}
 		print_vector(main, main.size(), "mainX1");
 		print_vector(tmp, tmp.size(), "tmpX1");
-		tmp = SplitX2(tmp);
+		SplitX2(tmp);
 		print_vector(main, main.size(), "mainX2");
 		print_vector(tmp, tmp.size(), "tmpX2");
 		for (size_t x = 0; x < main.size(); x++)
@@ -89,6 +89,7 @@ std::vector<t_pair>	SplitX2(T &lst)
 			nb_comp++;
 			if (main[x].pair == tmp[0].value)
 			{
+				std::cout << "INSERT " << main[x].value << " at 0\n";
 				tmp.insert(tmp.begin(), main[x]);
 				main.erase(main.begin() + x);
 				x = 0;
@@ -98,7 +99,6 @@ std::vector<t_pair>	SplitX2(T &lst)
 		size_t nb_push = 0;
 		while (main.size() > nb_push)
 		{
-			//std::cout << "YES\n";
 			size_t y = 0;
 			while (y < main.size())
 			{
@@ -129,16 +129,16 @@ std::vector<t_pair>	SplitX2(T &lst)
 							}
 							else
 							{
-								tmp.insert(tmp.begin(), main[y]);
+								tmp.insert(tmp.begin() + 1, main[y]);
 								std::cout << "PUSHED " << main[y].value << " at " << 1 << "\n\n";
 							}
 						}
 						nb_push++;
 						main.erase(main.begin() + y);
-						print_vector(tmp, tmp.size(), "tmpX3");
+						print_vector(tmp, tmp.size(), "tmpXend");
 						if (main.size() == 0)
 							std::cout << "mainX3 = (empty)\n";
-						print_vector(main, main.size(), "mainX3");
+						print_vector(main, main.size(), "mainXend");
 						std::cout << "\n\n";
 						break ;
 					}
@@ -146,15 +146,15 @@ std::vector<t_pair>	SplitX2(T &lst)
 				y++;
 			}
 		}
+		lst = tmp;
 	}
-	return (tmp);
 }
 
 //FUNC A SUPP
 template <typename T>
 bool is_sorted(T &lst)
 {
-	for (size_t x = 0; x < lst.size(); x++)
+	for (size_t x = 0; x < lst.size() - 1; x++)
 	{
 		if (lst[x].value > lst[x + 1].value)
 			return (0);
@@ -184,13 +184,14 @@ void	SplitX(T &lst)
 				main[y].pair = lst[x + 1].value;
 			y++;
 		}
-		tmp = SplitX2(tmp);
+		SplitX2(tmp);
 	}
 	print_vector(main, main.size(), "main");
 	print_vector(tmp, tmp.size(), "tmp");
 	if (is_sorted(tmp) == 0)
 		std::cout << "FALSE\n";
-	return ;
+	else
+		std::cout << "TRUE\n";
 	while (main.size() > 0)
 	{
 		size_t y = 0;
