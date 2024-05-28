@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 20:06:59 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/20 20:10:41 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/28 17:30:28 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ Data::~Data( void )
 
 Data::Data( const Data &rhs)
 {
+	std::cout << "Copy constructor called for Data" << std::endl;
 	(void)rhs;
 };
 

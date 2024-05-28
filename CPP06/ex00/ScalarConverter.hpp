@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:23:42 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/20 17:10:18 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/28 13:28:12 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ class ScalarConverter
 
 	ScalarConverter();
 	ScalarConverter(const ScalarConverter & y);
+	ScalarConverter& 	operator=(ScalarConverter const & rhs);
 	~ScalarConverter();
 
 	public:
