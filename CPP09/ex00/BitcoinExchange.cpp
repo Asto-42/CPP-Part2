@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:42 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/28 19:50:03 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/28 17:35:46 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ void	Bitcoin::init(std::string str)
 			}
 		}
 		else
-			std::cout << "Bad input -> " << buffer << std::endl;
+			std::cout << "Bad input -> " << buffer  << "." << std::endl;
 	}
 	DataBase.close();
 }

@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:53:15 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/20 15:02:50 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/24 16:46:43 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ class PmergeMe
 
 	std::vector<t_pair> C_list;
 	size_t n_c;
+
 	//PmergeMe & operator=(const PmergeMe &rhs);
 	PmergeMe(PmergeMe &rhs);
 
 	public :
 
 	PmergeMe();
-	PmergeMe(unsigned int n, char **argv);
+	PmergeMe(unsigned int size, char **argv, unsigned int max_comp);
 	~PmergeMe();
 
 };

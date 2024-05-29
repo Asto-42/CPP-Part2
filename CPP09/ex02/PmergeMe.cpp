@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/24 14:04:21 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/24 16:59:06 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ struct PrintNumber
 {
 	void operator()(const int n) const
 	{
-		std::cout << n << std::setw(5);
+		std::cout << n << std::setw(4);
 	}
 };
 
@@ -29,7 +29,7 @@ struct Printpair
 {
 	void operator()(const int n) const
 	{
-		std::cout << n << std::setw(5);
+		std::cout << n << std::setw(4);
 	}
 };
 
@@ -48,9 +48,9 @@ void	print_vector(T &tmp, int size, std::string c)
 		std::cout << c << " =	";
 		std::for_each(lst.begin(), lst.end(), PrintNumber());
 		std::cout << std::endl;
-		//std::cout << "	";
-		//std::for_each(lst2.begin(), lst2.end(), Printpair());
-		//std::cout << std::endl;
+		std::cout << "	";
+		std::for_each(lst2.begin(), lst2.end(), Printpair());
+		std::cout << std::endl;
 	}
 }
 
@@ -59,7 +59,7 @@ void	SplitX2(T &lst)
 {
 	T main;
 	T tmp;
-	for (size_t x = 0; x < lst.size(); x+= 2)
+	for (size_t x = 0; x < lst.size() - 1; x+= 2)
 	{
 		nb_comp++;
 		if (lst[x].value > lst[x + 1].value)
@@ -68,28 +68,32 @@ void	SplitX2(T &lst)
 	if (lst.size() > 2)
 	{
 		int y = 0;
-		for (size_t x = 0; x < lst.size(); x += 2)
+		for (size_t x = 0; x < lst.size(); x++)
 		{
-			tmp.push_back(lst[x + 1]);
-			tmp[y].pair = y;
-			if (x < lst.size() - 1)
+			if (lst.size() != 2 && x == lst.size() - 1)
 			{
-				main.push_back(lst[x]);
-				main[y].pair = lst[x + 1].value;
+				tmp.push_back(lst[x]);
+				tmp[y].pair = y;
+			}
+			else
+			{
+				tmp.push_back(lst[x + 1]);
+				tmp[y].pair = y;
+				if (x < lst.size() - 1)
+				{
+					main.push_back(lst[x]);
+					main[y].pair = lst[x + 1].value;
+				}
+				x++;
 			}
 			y++;
 		}
-		print_vector(main, main.size(), "mainX1");
-		print_vector(tmp, tmp.size(), "tmpX1");
 		SplitX2(tmp);
-		print_vector(main, main.size(), "mainX2");
-		print_vector(tmp, tmp.size(), "tmpX2");
 		for (size_t x = 0; x < main.size(); x++)
 		{
 			nb_comp++;
 			if (main[x].pair == tmp[0].value)
 			{
-				std::cout << "INSERT " << main[x].value << " at 0\n";
 				tmp.insert(tmp.begin(), main[x]);
 				main.erase(main.begin() + x);
 				x = 0;
@@ -97,7 +101,7 @@ void	SplitX2(T &lst)
 			}
 		}
 		size_t nb_push = 0;
-		while (main.size() > nb_push)
+		while (main.size() > 0)
 		{
 			size_t y = 0;
 			while (y < main.size())
@@ -116,30 +120,16 @@ void	SplitX2(T &lst)
 								x = (x + x2) / 2;
 						}
 						if (x2 != 0)
-						{
 							tmp.insert(tmp.begin() + x2 + 1, main[y]);
-							std::cout << "PUSHED " << main[y].value << " at " << x2 + 1 << "\n\n";
-						}
 						else
 						{
 							if (main[y].value < tmp[0].value)
-							{
 								tmp.insert(tmp.begin(), main[y]);
-								std::cout << "PUSHED " << main[y].value << " at " << 0 << "\n\n";
-							}
 							else
-							{
 								tmp.insert(tmp.begin() + 1, main[y]);
-								std::cout << "PUSHED " << main[y].value << " at " << 1 << "\n\n";
-							}
 						}
 						nb_push++;
 						main.erase(main.begin() + y);
-						print_vector(tmp, tmp.size(), "tmpXend");
-						if (main.size() == 0)
-							std::cout << "mainX3 = (empty)\n";
-						print_vector(main, main.size(), "mainXend");
-						std::cout << "\n\n";
 						break ;
 					}
 				}
@@ -150,7 +140,6 @@ void	SplitX2(T &lst)
 	}
 }
 
-//FUNC A SUPP
 template <typename T>
 bool is_sorted(T &lst)
 {
@@ -161,13 +150,13 @@ bool is_sorted(T &lst)
 	}
 	return (1);
 }
-//FUNC A SUPP
 
 template <typename T>
-void	SplitX(T &lst)
+void	SplitX(T &lst, long long int max_comp)
 {
 	T main;
 	T tmp;
+
 	if (lst.size() >= 2)
 	{
 		int y = 0;
@@ -186,36 +175,53 @@ void	SplitX(T &lst)
 		}
 		SplitX2(tmp);
 	}
-	print_vector(main, main.size(), "main");
-	print_vector(tmp, tmp.size(), "tmp");
-	if (is_sorted(tmp) == 0)
-		std::cout << "FALSE\n";
-	else
-		std::cout << "TRUE\n";
+	for (size_t x = 0; x < main.size(); x++)
+	{
+		nb_comp++;
+		if (main[x].pair == tmp[0].value)
+		{
+			tmp.insert(tmp.begin(), main[x]);
+			main.erase(main.begin() + x);
+			x = 0;
+			break ;
+		}
+	}
+	size_t nb_push = 0;
 	while (main.size() > 0)
 	{
 		size_t y = 0;
+		bool equal = 0;
 		while (y < main.size())
 		{
 			for (size_t x = 0; x < tmp.size(); x++)
 			{
+				equal = 0;
 				if (tmp[x].value == main[y].pair)
 				{
 					size_t x2 = 0;
-					while (x2 + 1 < x)
+					while (equal != 1 && x2 + 1 < x)
 					{
 						nb_comp++;
 						if (tmp[(x+x2)/2].value < main[y].value)
 							x2 = (x + x2) / 2;
 						else if (tmp[(x+x2)/2].value > main[y].value)
 							x = (x + x2) / 2;
+						else if (tmp[(x+x2)/2].value == main[y].value)
+							equal = 1;
 					}
-					if (x2 == 0 && x == 1)
-						tmp.insert(tmp.begin() + 1, main[y]);
-					else if (x2 != 0)
-						tmp.insert(tmp.begin() + x2 + 1, main[y]);
-					else
-						tmp.insert(tmp.begin(), main[y]);
+					if (equal != 1)
+					{
+						if (x2 != 0)
+							tmp.insert(tmp.begin() + x2 + 1, main[y]);
+						else
+						{
+							if (main[y].value < tmp[0].value)
+								tmp.insert(tmp.begin(), main[y]);
+							else
+								tmp.insert(tmp.begin() + 1, main[y]);
+						}
+						nb_push++;
+					}
 					main.erase(main.begin() + y);
 					break ;
 				}
@@ -224,11 +230,18 @@ void	SplitX(T &lst)
 		}
 	}
 	lst = tmp;
-	print_vector(lst, lst.size(), "lst");
+	long long int result = max_comp - nb_comp;
+	std::cout << "lst size = " << lst.size() << "\n";
+	//print_vector(lst, lst.size(), "lst");
 	std::cout << "Nb comp = " << nb_comp << std::endl;
+	std::cout << "Diff = " << result << std::endl;
+	if (is_sorted(tmp) == 0)
+		std::cout << "FALSE\n";
+	else
+		std::cout << "TRUE\n";
 }
 
-PmergeMe::PmergeMe(unsigned int size, char **argv)
+PmergeMe::PmergeMe(unsigned int size, char **argv, unsigned int max_comp)
 {
 	this->n_c = size;
 	t_pair pair;
@@ -238,8 +251,7 @@ PmergeMe::PmergeMe(unsigned int size, char **argv)
 		pair.pair = 0;
 		this->C_list.push_back(pair);
 	}
-	std::cout << "\n" << std::endl;
-	SplitX(this->C_list);
+	SplitX(this->C_list, max_comp);
 };
 
 PmergeMe::~PmergeMe(void)

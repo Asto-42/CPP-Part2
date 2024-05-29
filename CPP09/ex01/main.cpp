@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/01 11:51:04 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/29 10:40:17 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,3 @@ int	main(int argc, char **argv)
 	lst.operate_stack(argv[1]);
 	return (0);
 }
-
-		//parse this is a reverse polish expression-> operand before operator
-		//std::cout << "You need to enter a reverse polish expression" << std::endl;
-		//parse member, only accept int < 10 and operators : + . - . / . *
-		//calc
-		//print

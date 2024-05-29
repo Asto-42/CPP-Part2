@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/20 15:01:13 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/24 16:57:57 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@
 //    est sup ou inf a la valeur en n/2, si egal, benef,
 //    sinon recommencer dans la moitie du tableau pertinente
 
-void calcul_max_comp(int nb)
+unsigned int calcul_max_comp(int nb)
 {
 	int max_comp;
 
 	max_comp = (nb * log2(nb)) - (1.415 * (nb));
+	max_comp = max_comp * 1.1;
 	std::cout << "For " << nb << " integers, the max comp is " << max_comp << std::endl;
+	return (max_comp);
 }
 
 int	main(int argc, char **argv)
@@ -38,7 +40,11 @@ int	main(int argc, char **argv)
 		std::cout << "Invalid arguments" << std::endl;
 		return (0);
 	}
-	calcul_max_comp(argc - 1);
-	PmergeMe data((unsigned int)argc - 1, argv);
+	const clock_t begin_time = clock();
+
+	PmergeMe data((unsigned int)argc - 1, argv, calcul_max_comp(argc - 1));
+	const clock_t end_time = clock();
+	std::cout << ((end_time - begin_time) * 1000) / CLOCKS_PER_SEC << " ms" << std::endl;
+	std::cout << ((end_time - begin_time) * 1000 * 1000) / CLOCKS_PER_SEC << " µs" << std::endl;
 	return (0);
 }

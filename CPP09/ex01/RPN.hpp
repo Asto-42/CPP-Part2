@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:50:36 by jquil             #+#    #+#             */
-/*   Updated: 2024/03/01 11:40:53 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/29 11:36:11 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ class RPN
 	~RPN();
 	void	operate_stack(char *str);
 	void	execute_operator(char c);
+	void	invalid_expression(char *token);
 };
 #endif
