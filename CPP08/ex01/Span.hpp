@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:12:45 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/23 16:34:31 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:53:09 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 #include <cstdlib>
 #include <stdint.h>
 #include <vector>
+#include <bits/stdc++.h>
 
 class Span
 {
@@ -43,12 +44,29 @@ class Span
 	Span();
 	Span(unsigned int n);
 	Span & operator=(const Span &rhs);
+	Span(const Span & y);
 	int & operator[](unsigned int memb);
 
 	unsigned int getSize(void);
 	void AddNumber(int nb);
-	unsigned int shortestSpan();
-	unsigned int longestSpan();
+	void AddMultipleNumber(std::vector<int> vctr);
+	int shortestSpan();
+	int longestSpan();
+	void compare_value(int longest);
+
+	class CantAddNumberException:public std::exception
+	{
+		public :
+
+		virtual const char *what() const throw();
+	};
+
+	class NoSpanException:public std::exception
+	{
+		public :
+
+		virtual const char *what() const throw();
+	};
 
 	class MembOutOfRangeException:public std::exception
 	{

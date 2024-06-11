@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Easy.hpp                                           :+:      :+:    :+:   */
+/*   easyfind.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:12:45 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/23 12:09:12 by jquil            ###   ########.fr       */
+/*   Updated: 2024/06/11 13:42:18 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@
 #include <cstdlib>
 #include <stdint.h>
 #include <vector>
-
-template <typename T>
-void easyfind(T temp, int nb);
 
 class NoOccurence:public std::exception
 {

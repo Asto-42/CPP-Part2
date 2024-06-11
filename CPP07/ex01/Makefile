@@ -6,7 +6,7 @@
 #    By: jquil <jquil@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/10 11:58:31 by jquil             #+#    #+#              #
-#    Updated: 2024/02/22 14:10:56 by jquil            ###   ########.fr        #
+#    Updated: 2024/06/11 12:56:58 by jquil            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ OBJS		=	$(SRC:.cpp=.o)
 
 COMPILE		=	clang++
 
-FLAGS		=	-Wall -Wextra -Werror -std=c++98 -std=c++11
+FLAGS		=	-Wall -Wextra -Werror -std=c++98
 
 EXE_NAME	=	-o $(NAME)
 

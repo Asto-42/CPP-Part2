@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:11:09 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/22 14:47:03 by jquil            ###   ########.fr       */
+/*   Updated: 2024/06/11 13:17:40 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,28 @@
 #include <cstdlib>
 #include <stdint.h>
 
-template <typename T>
-void iter(T *x, size_t len, void (*foo)(T &))
+template< typename T, typename F >
+void	iter(T *array, size_t len, F f)
 {
-	for (size_t y = 0; y < len; y++)
-		foo(x[y]);
+	try
+	{
+		if (!array || len <= 0 || !f) {
+			throw std::invalid_argument("Invalid argument.");
+		}
+		for (size_t i = 0; i < len; i++)
+			f(array[i]);
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << "Caught exception: " << e.what() << std::endl;
+	}
 }
+
+template< typename T >
+void 	print(T &value)
+{
+	std::cout << value << std::endl;
+};
 
 #endif
 

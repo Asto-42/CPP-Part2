@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:45:48 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/28 14:06:56 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/28 16:53:05 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ Span & Span::operator=(const Span &ref)
 	return (*this);
 }
 
+Span::Span(const Span & y)
+{
+	//std::cout << "Copy constructor called" << std::endl;
+	*this = y;
+}
+
 int & Span::operator[](unsigned int memb)
 {
 	if (memb > this->size - 1)
@@ -49,42 +55,78 @@ unsigned int Span::getSize(void)
 	return (this->size);
 }
 
+void Span::AddMultipleNumber(std::vector<int> vctr)
+{
+	if (this->array.size() + vctr.size() > this->getSize())
+		throw Span::CantAddNumberException();
+	this->array.insert(this->array.end(), vctr.begin(), vctr.end());
+}
+
 void Span::AddNumber(int nb)
 {
-	this->array.push_back(nb);
+	if (this->array.size() == this->getSize())
+		throw Span::CantAddNumberException();
+	else
+		this->array.push_back(nb);
 }
 
-unsigned int Span::shortestSpan(void)
+const char *Span::CantAddNumberException::what() const throw()
 {
+	return ("Cant add data in array after init");
+}
+
+const char *Span::NoSpanException::what() const throw()
+{
+	return ("Array only contains one data");
+}
+
+int Span::shortestSpan(void)
+{
+	if (this->array.size() < 2)
+		throw Span::NoSpanException();
+	sort(this->array.begin(), this->array.end());
 	unsigned int min_1 = this->array[0];
 	unsigned int min_2 = this->array[1];
-	for (unsigned int y = 0; y < this->getSize(); y++)
+	for (unsigned int x = 0; x < this->array.size() - 1; x++)
 	{
-		for (unsigned int x = 1; x < this->getSize(); x++)
+		if (((unsigned int)(this->array[x + 1] - this->array[x]) < min_1 - min_2))
 		{
-			if ((this->array[y] - this->array[x] > 0) && ((unsigned int)(this->array[y] - this->array[x]) < min_1 - min_2))
-			{
-				min_1 = this->array[y];
-				min_2 = this->array[x];
-				x = 0;
-			}
+			min_1 = this->array[x + 1];
+			min_2 = this->array[x];
 		}
 	}
-	if (min_1 > min_2)
-		return (min_1 - min_2);
-	return (min_2 - min_1);
+	return (min_1 - min_2);
 }
 
-unsigned int Span::longestSpan(void)
+
+int Span::longestSpan(void)
 {
-	int min_span = INT_MAX;
-	int max_span = 0;
-	for (unsigned int x = 0; x < this->size; x++)
+	if (this->array.size() < 2)
+		throw Span::NoSpanException();
+	sort(this->array.begin(), this->array.end());
+	int min = *this->array.begin();
+	int max = *this->array.rbegin();
+	return (max - min);
+}
+
+void	Span::compare_value(int longest)
+{
+	int long_cmp;
+
+	//LONG PART
+	int min = INT_MAX;
+	int max = 0;
+	for (std::vector<int>::iterator it = this->array.begin(); it != this->array.end(); ++it)
 	{
-		if (this->array[x] < min_span)
-			min_span = this->array[x];
-		if (this->array[x] > max_span)
-			max_span = this->array[x];
+		if (*it < min)
+			min = *it;
+		if (*it > max)
+			max = *it;
 	}
-	return (max_span - min_span);
+	long_cmp = max - min;
+
+	std::cout << "\nManual calcul :\n\n";
+	std::cout << "Longest Span = " << long_cmp << "\n";
+
+	std::cout << "Longest diff = " << longest - long_cmp << "\n";
 }

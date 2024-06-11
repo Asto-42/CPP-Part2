@@ -6,11 +6,11 @@
 #    By: jquil <jquil@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/18 16:46:22 by aboulest          #+#    #+#              #
-#    Updated: 2024/02/23 15:54:46 by jquil            ###   ########.fr        #
+#    Updated: 2024/06/11 13:43:57 by jquil            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:= easy
+NAME		:= Span
 
 CC			:= c++
 FLAGS		:= -Wall -Wextra -Werror -MMD -std=c++98 -g3

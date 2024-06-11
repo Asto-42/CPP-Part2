@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   C.cpp                                              :+:      :+:    :+:   */
+/*   easyfind.tpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 13:11:16 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/21 14:09:20 by jquil            ###   ########.fr       */
+/*   Created: 2024/06/11 13:39:22 by jquil             #+#    #+#             */
+/*   Updated: 2024/06/11 13:39:31 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Base.hpp"
+#include "easyfind.hpp"
 
-C::C()
+template <typename T>
+int easy_find(T temp, int nb)
 {
-	std::cout << "C base constructor called" << std::endl;
-};
+	for (size_t x = 0; x < temp.size(); x++)
+		if (temp[x] == nb)
+			return (x);
+	throw NoOccurence();
+}

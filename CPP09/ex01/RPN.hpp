@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:50:36 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/29 11:36:11 by jquil            ###   ########.fr       */
+/*   Updated: 2024/05/29 12:09:34 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class RPN
 
 	std::stack<int> _operator;
 
-	//RPN & operator=(const RPN &rhs);
+	RPN & operator=(RPN const &rhs);
 	RPN(RPN &rhs);
 
 	public :

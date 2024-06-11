@@ -6,24 +6,16 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 15:36:02 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/23 14:30:09 by jquil            ###   ########.fr       */
+/*   Updated: 2024/06/11 13:40:29 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Easy.hpp"
+#include "easyfind.hpp"
+#include "easyfind.tpp"
 
 const char *NoOccurence::what() const throw()
 {
 	return ("No occurence founded in list");
-}
-
-template <typename T>
-int easy_find(T temp, int nb)
-{
-	for (size_t x = 0; x < temp.size(); x++)
-		if (temp[x] == nb)
-			return (x);
-	throw NoOccurence();
 }
 
 int main(void)

@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:18:54 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/23 14:57:57 by jquil            ###   ########.fr       */
+/*   Updated: 2024/06/11 13:16:51 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,38 @@ Array<T>::Array(unsigned int n)
 	std::cout << "Specific size constructor called" << std::endl;
 	this->len = n;
 	this->array = new T[n];
+	if (!this->array)
+		throw std::exception();
 };
 
-template <typename T>
-Array<T> & Array<T>::operator=(const Array &ref)
+template<typename T>
+Array<T> &Array<T>::operator=(Array<T> const &rhs)
 {
-	for(unsigned int i = 0; i < this->len; i++)
+	if (this != &rhs)
 	{
-		if (ref.array[i])
-			this->array[i] = ref.array[i];
+		if (this->array)
+			delete this->array;
+		this->len = rhs.len;
+		if (this->len == 0)
+			this->array = NULL;
+		else
+		{
+			this->array = new T[this->len];
+			if (!this->array)
+				throw std::exception();
+			for (unsigned int i = 0; i < this->len; i++)
+				this->array[i] = rhs.array[i];
+		}
 	}
+	std::cout << "Assignment Operator called: Array" << std::endl;
 	return (*this);
-};
+}
 
 template <typename T>
 T & Array<T>::operator[](unsigned int memb)
 {
 
-	if (memb > this->size())
+	if (memb >= this->size())
 		throw Array<T>::MembOutOfRangeException();
 	return (this->array[memb]);
 };
@@ -61,10 +75,23 @@ unsigned int Array<T>::size(void)
 };
 
 template <typename T>
-Array<T>::Array(const Array & y)
+Array<T>::Array(const Array & rhs)
 {
 	//std::cout << "Copy constructor called" << std::endl;
-	*this = y;
+	this->len = rhs.len;
+	if (this->len == 0)
+	{
+		this->array = NULL;
+		return ;
+	}
+	else
+	{
+		this->array = new T[this->len];
+		if (!this->array)
+			throw std::exception();
+		for (unsigned int i = 0; i < this->len; i++)
+			this->array[i] = rhs.array[i];
+	}
 };
 
 template <typename T>
