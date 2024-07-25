@@ -6,23 +6,116 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/29 10:40:17 by jquil            ###   ########.fr       */
+/*   Updated: 2024/07/25 13:05:23 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 
-//"8 9 * 9 - 9 - 9 - 4 - 1 +"
-
-int	main(int argc, char **argv)
+int main(int ac, char **av)
 {
-	if (argc != 2)
-	{
-		std::cout << "Invalid argument(s)" << std::endl;
-		return (0);
+	Rpn			Rpn;
+	double 		res = 0;
+	std::string str;
+
+	if (ac <= 1) {
+		std::cout << "ERROR: " << "invalid argument" << std::endl;
+		return -1;
 	}
-	std::cout << "Reverse polish expression : " << argv[1] << std::endl;
-	RPN lst;
-	lst.operate_stack(argv[1]);
+
+	for (size_t i = 1; av[i] != NULL; i++)
+	{
+		str += av[i];
+		str += " ";
+	}
+	std::cout << str << "\n";
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/')
+		{
+			if (Rpn.getObjS().size() < 2)
+				std::cout << "ERROR: " << "not enough numbers to do the arithmetic" << std::endl;
+			else
+			{
+				int nb1;
+				int nb2;
+				if (str[i] == '+')
+				{
+					nb1 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					nb2 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					res = nb1 + nb2;
+					if (res > std::numeric_limits<int>::max() || res < std::numeric_limits<int>::min())
+					{
+						std::cout << "ERROR: int max or int min" << std::endl;
+						return -1;
+					}
+					Rpn.getObjS().push(static_cast<int>(res));
+				}
+				if (str[i] == '-')
+				{
+					nb1 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					nb2 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					res = nb2 - nb1;
+					if (res > std::numeric_limits<int>::max() || res < std::numeric_limits<int>::min())
+					{
+						std::cout << "ERROR: int max or int min" << std::endl;
+						return -1;
+					}
+					Rpn.getObjS().push(static_cast<int>(res));
+				}
+				if (str[i] == '*')
+				{
+					nb1 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					nb2 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					res = nb1 * nb2;
+					if (res > std::numeric_limits<int>::max() || res < std::numeric_limits<int>::min())
+					{
+						std::cout << "ERROR: int max or int min" << std::endl;
+						return -1;
+					}
+					Rpn.getObjS().push(static_cast<int>(res));
+				}
+				if (str[i] == '/' )
+				{
+					nb1 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					nb2 = Rpn.getObjS().top();
+					Rpn.getObjS().pop();
+					if (nb1 == 0 || nb2 == 0)
+					{
+						std::cout << "ERROR: division by 0" << std::endl;
+						return 0;
+					}
+					res = nb2 / nb1;
+					if (res > std::numeric_limits<int>::max() || res < std::numeric_limits<int>::min())
+					{
+						std::cout << "ERROR: int max or int min" << std::endl;
+						return -1;
+					}
+					Rpn.getObjS().push(static_cast<int>(res));
+				}
+			}
+		}
+		if (str[i] >= 48 && str[i] <= 57)
+		{
+			if (i < (str.size() - 1) && (str[i + 1] >= 48 && str[i + 1] <= 57))
+			{
+				std::cout << "ERROR: " << "all number value should be between 0 and 9" << std::endl;
+				return -1;
+			}
+			else
+				Rpn.getObjS().push(str[i] - 48);
+		}
+	}
+	if (Rpn.getObjS().size() > 1)
+			std::cout << "ERROR: " << "not enough arithmetic operators" << std::endl;
+	else
+		std::cout << Rpn.getObjS().top() << std::endl;
 	return (0);
 }
