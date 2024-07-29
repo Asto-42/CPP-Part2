@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/02/28 19:19:09 by jquil            ###   ########.fr       */
+/*   Updated: 2024/07/25 12:57:31 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 		bitcoin.init(argv[1]);
 
 	}
-	catch(const Bitcoin::InvalidFile e)
+	catch(const std::exception e)
 	{
 		std::cerr << e.what() << '\n';
 	}

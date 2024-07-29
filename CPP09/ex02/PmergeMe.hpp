@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:53:15 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/24 16:46:43 by jquil            ###   ########.fr       */
+/*   Updated: 2024/07/25 13:26:57 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,21 @@ typedef struct s_pair
 	int pair;
 }			t_pair;
 
-template <typename T>
-void	SplitX(T &lst);
-
 class PmergeMe
 {
 	private :
 
 	std::vector<t_pair> C_list;
+	std::deque<t_pair> D_list;
 	size_t n_c;
-
-	//PmergeMe & operator=(const PmergeMe &rhs);
+	PmergeMe & operator=(const PmergeMe &rhs);
 	PmergeMe(PmergeMe &rhs);
+
 
 	public :
 
 	PmergeMe();
-	PmergeMe(unsigned int size, char **argv, unsigned int max_comp);
+	PmergeMe(unsigned int size, char **argv, unsigned int max_comp, int x);
 	~PmergeMe();
 
 };

@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:58:06 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/24 16:59:06 by jquil            ###   ########.fr       */
+/*   Updated: 2024/07/25 13:25:13 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,28 @@ PmergeMe::PmergeMe(void)
 {
 	return ;
 };
+
+PmergeMe& PmergeMe::operator=(const PmergeMe &rhs)
+{
+	std::cout << "Operator called for PmergeMe\n";
+	if (this != &rhs)
+	{
+		this->C_list = rhs.C_list;
+		this->D_list = rhs.D_list;
+	}
+	return (*this);
+}
+
+PmergeMe::PmergeMe(PmergeMe & rhs)
+{
+	// std::cout << "Copy constructor called\n";
+	if (this != &rhs)
+	{
+		this->C_list = rhs.C_list;
+		this->D_list = rhs.D_list;
+	}
+	return ;
+}
 
 struct PrintNumber
 {
@@ -235,23 +257,39 @@ void	SplitX(T &lst, long long int max_comp)
 	//print_vector(lst, lst.size(), "lst");
 	std::cout << "Nb comp = " << nb_comp << std::endl;
 	std::cout << "Diff = " << result << std::endl;
+	nb_comp = 0;
 	if (is_sorted(tmp) == 0)
 		std::cout << "FALSE\n";
 	else
 		std::cout << "TRUE\n";
 }
 
-PmergeMe::PmergeMe(unsigned int size, char **argv, unsigned int max_comp)
+PmergeMe::PmergeMe(unsigned int size, char **argv, unsigned int max_comp, int x)
 {
-	this->n_c = size;
-	t_pair pair;
-	for (size_t x = 1; x <= this->n_c; x++)
+	if (x == 1)
 	{
-		pair.value = atoi(argv[x]);
-		pair.pair = 0;
-		this->C_list.push_back(pair);
+		this->n_c = size;
+		t_pair pair;
+		for (size_t x = 1; x <= this->n_c; x++)
+		{
+			pair.value = atoi(argv[x]);
+			pair.pair = 0;
+			this->C_list.push_back(pair);
+		}
+		SplitX(this->C_list, max_comp);
 	}
-	SplitX(this->C_list, max_comp);
+	else
+	{
+		this->n_c = size;
+		t_pair pair;
+		for (size_t x = 1; x <= this->n_c; x++)
+		{
+			pair.value = atoi(argv[x]);
+			pair.pair = 0;
+			this->D_list.push_back(pair);
+		}
+		SplitX(this->D_list, max_comp);
+	}
 };
 
 PmergeMe::~PmergeMe(void)

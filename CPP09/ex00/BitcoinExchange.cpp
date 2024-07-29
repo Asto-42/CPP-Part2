@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:42 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/28 17:35:46 by jquil            ###   ########.fr       */
+/*   Updated: 2024/07/25 12:56:42 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	Bitcoin::parseDataBase(void)
 	{
 		if (parseFirstMember(it->first, 1900 + ltm->tm_year, 1 + ltm->tm_mon, ltm->tm_mday) == 0)
 			throw Bitcoin::InvalidDate();
+		std::cout << "YES\n";
 		if (parseSecondMember(it->second) == 0)
 			throw Bitcoin::InvalidValue();
 	}
@@ -219,8 +220,10 @@ void	Bitcoin::init(std::string str)
 		{
 			date.erase(date.find(' '));
 			if (parseFirstMember(date, 1900 + ltm->tm_year, 1 + ltm->tm_mon, ltm->tm_mday) == 0)
-				std::cout << "Invalid date" << std::endl;
-			if (parseSecondMemberInput(value) == 1)
+			{
+				std::cout << "Invalid date : " << date << std::endl;
+			}
+			else if (parseSecondMemberInput(value) == 1)
 			{
 				FindOccurence(date, value);
 			}

@@ -6,7 +6,7 @@
 /*   By: jquil <jquil@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:41:53 by jquil             #+#    #+#             */
-/*   Updated: 2024/05/24 16:57:57 by jquil            ###   ########.fr       */
+/*   Updated: 2024/07/25 13:24:18 by jquil            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,21 @@ int	main(int argc, char **argv)
 		std::cout << "Invalid arguments" << std::endl;
 		return (0);
 	}
+
+	//Vector Part
 	const clock_t begin_time = clock();
 
-	PmergeMe data((unsigned int)argc - 1, argv, calcul_max_comp(argc - 1));
+	PmergeMe data((unsigned int)argc - 1, argv, calcul_max_comp(argc - 1), 1);
 	const clock_t end_time = clock();
 	std::cout << ((end_time - begin_time) * 1000) / CLOCKS_PER_SEC << " ms" << std::endl;
 	std::cout << ((end_time - begin_time) * 1000 * 1000) / CLOCKS_PER_SEC << " µs" << std::endl;
+
+	//Deque Part
+	const clock_t begin_time_2 = clock();
+
+	PmergeMe data2((unsigned int)argc - 1, argv, calcul_max_comp(argc - 1), 2);
+	const clock_t end_time_2 = clock();
+	std::cout << ((end_time_2 - begin_time_2) * 1000) / CLOCKS_PER_SEC << " ms" << std::endl;
+	std::cout << ((end_time_2 - begin_time_2) * 1000 * 1000) / CLOCKS_PER_SEC << " µs" << std::endl;
 	return (0);
 }
